@@ -10,6 +10,7 @@ Inherits TestController
 		  group = New UnitTestsDefault(Self, "Default")
 		  group = New UnitTestsFail(Self, "Always Fail")
 		  group = New CharStreamTests(Self, "CharStreamTests")
+		  group = New MiscTests(Self, "MiscTests")
 		  
 		End Sub
 	#tag EndEvent

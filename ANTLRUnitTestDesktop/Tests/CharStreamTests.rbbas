@@ -18,10 +18,10 @@ Inherits TestGroup
 		  Assert.AreEqual snnipet.Len, actual.Len, "AreEqual snnipet.Len, actual.Len"
 		  Assert.AreEqual snnipet, actual, "AreEqual snnipet, actual"
 		  
-		  Dim file As FolderItem= FindFile("Expr.g4", "grammars")
+		  Dim file As FolderItem= FindFile("Hello.g4", "grammars")
 		  Dim txtFile As TextInputStream= TextInputStream.Open(file)
 		  
-		  stream= ANTLR4Runtime.CharStreams.FromPath(file.AbsoluteNativePathAntlr)
+		  stream= ANTLR4Runtime.CharStreams.FromPath(file.AbsolutePathAntlr)
 		  
 		  actual= stream.GetText(New ANTLR4Runtime.Misc.Interval(0, stream.Size))
 		  Dim expect As String= txtFile.ReadAll(Encodings.UTF8)
@@ -57,7 +57,7 @@ Inherits TestGroup
 		  Assert.AreEqual expect.Len, stream.Size, "AreEqual snnipet.Len, stream.Size"
 		  Assert.AreEqual expect, actual, "AreEqual expect, actual"
 		  
-		  stream= New ANTLR4Runtime.AntlrFileStream(file.AbsoluteNativePathAntlr)
+		  stream= New ANTLR4Runtime.AntlrFileStream(file.AbsolutePathAntlr)
 		  
 		  actual= stream.ToString
 		  Assert.AreEqual expect.Len, stream.Size, "AreEqual snnipet.Len, stream.Size"

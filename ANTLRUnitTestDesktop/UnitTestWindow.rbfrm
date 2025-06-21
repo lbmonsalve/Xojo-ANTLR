@@ -150,11 +150,21 @@ End
 #tag Events PushButton1
 	#tag Event
 		Sub Action()
-		  Dim stream1 As ANTLR4Runtime.ICharStream
-		  stream1= ANTLR4Runtime.CharStreams.FromStream(New BinaryStream("hello world! Σ©"))
-		  Dim sourceName As String= stream1.GetSourceName
+		  Dim trsn As New ANTLR4Runtime.Atn.Transition(New ANTLR4Runtime.Atn.ATNState)
+		  Dim names() As String= ANTLR4Runtime.Atn.Transition.SerializationNames
+		  Dim lbl As ANTLR4Runtime.Misc.IntervalSet= trsn.Label
 		  
+		  'Dim state As New ANTLR4Runtime.Atn.ATNState
+		  'Dim names() As String= ANTLR4Runtime.Atn.ATNState.SerializationNames
+		  '
 		  Break
+		  
+		  
+		  'Dim stream1 As ANTLR4Runtime.ICharStream
+		  'stream1= ANTLR4Runtime.CharStreams.FromStream(New BinaryStream("hello world! Σ©"))
+		  'Dim sourceName As String= stream1.GetSourceName
+		  '
+		  'Break
 		  
 		  
 		  'Dim file As FolderItem= SpecialFolder.Documents.Child("dragonbookout.txt")

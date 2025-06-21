@@ -39,7 +39,7 @@ Inherits AntlrInputStream
 		  dataEnc= fileEnc
 		  n= text.Len
 		  
-		  FileName= file.AbsoluteNativePathAntlr
+		  FileName= file.AbsolutePathAntlr
 		End Sub
 	#tag EndMethod
 

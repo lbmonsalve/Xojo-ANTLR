@@ -64,7 +64,7 @@ Inherits BaseInputCharStream
 		  If readChunkSize<= 0 Then readChunkSize= READ_BUFFER_SIZE
 		  
 		  Reset
-		  ReDim data(-1)
+		  data.ResizeToantlr(-1)
 		  dataEnc= inputEnc
 		  Dim buffer As String
 		  Dim endOfFile As Boolean
