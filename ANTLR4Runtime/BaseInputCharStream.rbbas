@@ -4,7 +4,7 @@ Implements ICharStream
 	#tag Method, Flags = &h0
 		Sub Consume()
 		  If p>= n Then
-		    Assert LA(1)= EOF
+		    Assert LA(1)= IntStream.EOF
 		    Raise New InvalidOperationException("cannot consume EOF")
 		  Else
 		    p= p+ 1
@@ -20,7 +20,7 @@ Implements ICharStream
 
 	#tag Method, Flags = &h0
 		Function GetSourceName() As String
-		  If SourceName.Len= 0 Then Return UNKNOWN_SOURCE_NAME
+		  If SourceName.Len= 0 Then Return IntStream.UnknownSourceName
 		  
 		  Return SourceName
 		End Function
@@ -51,7 +51,7 @@ Implements ICharStream
 		  If i= 0 Then Return 0
 		  If i< 0 Then
 		    i= i+ 1
-		    If (p+ i- 1)< 0 Then Return EOF
+		    If (p+ i- 1)< 0 Then Return IntStream.EOF
 		  End If
 		  
 		  Return ValueAt(p+ i- 1)
@@ -152,16 +152,10 @@ Implements ICharStream
 	#tag EndComputedProperty
 
 
-	#tag Constant, Name = EOF, Type = Double, Dynamic = False, Default = \"-1", Scope = Public
-	#tag EndConstant
-
 	#tag Constant, Name = INITIAL_BUFFER_SIZE, Type = Double, Dynamic = False, Default = \"1024", Scope = Public
 	#tag EndConstant
 
 	#tag Constant, Name = READ_BUFFER_SIZE, Type = Double, Dynamic = False, Default = \"1024", Scope = Public
-	#tag EndConstant
-
-	#tag Constant, Name = UNKNOWN_SOURCE_NAME, Type = String, Dynamic = False, Default = \"<unknown>", Scope = Public
 	#tag EndConstant
 
 

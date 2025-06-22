@@ -160,9 +160,6 @@ Protected Module ANTLR4Runtime
 	#tag EndNote
 
 
-	#tag Constant, Name = kEOF, Type = Double, Dynamic = False, Default = \"-1", Scope = Public
-	#tag EndConstant
-
 	#tag Constant, Name = kInvalidValue, Type = Double, Dynamic = False, Default = \"&h80000000", Scope = Public
 	#tag EndConstant
 

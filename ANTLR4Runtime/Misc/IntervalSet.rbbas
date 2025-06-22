@@ -503,7 +503,7 @@ Implements IIntSet
 		    Dim b As Integer= ii.B
 		    
 		    If a= b Then
-		      If a= kEOF Then
+		      If a= IntStream.EOF Then
 		        buf.Append "<EOF>"
 		      Else
 		        If elemAreChar Then

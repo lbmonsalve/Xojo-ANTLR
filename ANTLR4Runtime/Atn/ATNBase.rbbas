@@ -15,7 +15,10 @@ Protected Class ATNBase
 
 	#tag Method, Flags = &h0
 		Function NextTokens(s As ATNState, ctx As Rulecontext) As ANTLR4Runtime.Misc.IntervalSet
+		  Dim anali As New LL1Analyzer(Self)
+		  Dim nexti As ANTLR4Runtime.Misc.IntervalSet= anali.Look(s, ctx)
 		  
+		  Return nexti
 		End Function
 	#tag EndMethod
 
