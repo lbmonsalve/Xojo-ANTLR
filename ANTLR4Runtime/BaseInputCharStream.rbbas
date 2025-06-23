@@ -5,7 +5,7 @@ Implements ICharStream
 		Sub Consume()
 		  If p>= n Then
 		    Assert LA(1)= IntStream.EOF
-		    Raise New InvalidOperationException("cannot consume EOF")
+		    Raise GetException("InvalidOperationException: cannot consume EOF")
 		  Else
 		    p= p+ 1
 		  End If

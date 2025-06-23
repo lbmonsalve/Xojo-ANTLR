@@ -3,7 +3,7 @@ Protected Class IntervalSet
 Implements IIntSet
 	#tag Method, Flags = &h0
 		Sub Add(el As Integer)
-		  If Readonly Then Raise New InvalidOperationException("can't alter readonly IntervalSet")
+		  If Readonly Then Raise GetException("InvalidOperationException: can't alter readonly IntervalSet")
 		  
 		  Add el, el
 		  
@@ -32,7 +32,7 @@ Implements IIntSet
 
 	#tag Method, Flags = &h0
 		Sub Add(addition As Interval)
-		  If Readonly Then Raise New InvalidOperationException("can't alter readonly IntervalSet")
+		  If Readonly Then Raise GetException("InvalidOperationException: can't alter readonly IntervalSet")
 		  If addition.B< addition.A Then Return
 		  
 		  // find position in list
@@ -174,7 +174,7 @@ Implements IIntSet
 
 	#tag Method, Flags = &h0
 		Sub Clear()
-		  If Readonly Then Raise New InvalidOperationException("can't alter readonly IntervalSet")
+		  If Readonly Then Raise GetException("InvalidOperationException: can't alter readonly IntervalSet")
 		  
 		  Intervals.ResizeToAntlr 0
 		End Sub
@@ -265,6 +265,16 @@ Implements IIntSet
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Function GetException(msg As String, Optional errorNumber As Integer) As RuntimeException
+		  Dim ret As New RuntimeException
+		  ret.Message= msg
+		  ret.ErrorNumber= errorNumber
+		  
+		  Return ret
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function GetIntervals() As Interval()
 		  Return Intervals
@@ -301,6 +311,14 @@ Implements IIntSet
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Operator_Compare(rhs As IntervalSet) As Integer
+		  If Equals(rhs) Then Return 0
+		  
+		  Return -1
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function Or_(a As IIntSet) As IIntSet
 		  Dim ret As New IntervalSet
 		  Call ret.AddAll Self
@@ -312,7 +330,7 @@ Implements IIntSet
 
 	#tag Method, Flags = &h0
 		Sub Remove(el As Integer)
-		  If Readonly Then Raise New InvalidOperationException("can't alter readonly IntervalSet")
+		  If Readonly Then Raise GetException("InvalidOperationException: can't alter readonly IntervalSet")
 		  
 		  Dim lastIndex As Integer= Intervals.LastIndexAntlr
 		  For i As Integer= 0 To lastIndex
@@ -355,7 +373,8 @@ Implements IIntSet
 
 	#tag Method, Flags = &h0
 		Sub SetReadonly(setReadOnly As Boolean)
-		  If Self.Readonly And Not(setReadOnly) Then Raise New InvalidOperationException("can't alter readonly IntervalSet")
+		  If Self.Readonly And Not(setReadOnly) Then _
+		  Raise GetException("InvalidOperationException: can't alter readonly IntervalSet")
 		  
 		  Self.Readonly= setReadOnly
 		End Sub
@@ -544,7 +563,7 @@ Implements IIntSet
 			    #if DebugBuild
 			      Return kInvalidValue
 			    #else
-			      Raise New InvalidOperationException("set is empty")
+			      Raise GetException("InvalidOperationException: set is empty")
 			    #endif
 			  End If
 			  
@@ -561,7 +580,7 @@ Implements IIntSet
 			    #if DebugBuild
 			      Return kInvalidValue
 			    #else
-			      Raise New InvalidOperationException("set is empty")
+			      Raise GetException("InvalidOperationException: set is empty")
 			    #endif
 			  End If
 			  

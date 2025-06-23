@@ -28,6 +28,45 @@ Inherits TestGroup
 		  bset1= New ANTLR4Runtime.Misc.BitSet(2)
 		  bset1.Set 2
 		  Assert.AreSame "{false, true}", bset1.ToString, "AreSame ""{false, true}"", bset1.ToString"
+		  Assert.AreEqual 1, bset1.Cardinality, "AreEqual 1, bset1.Cardinality"
+		  
+		  
+		  bset2.Set 2
+		  bset2.And_(bset1)
+		  Assert.IsTrue bset2(2), "IsTrue bset2(2)"
+		  Assert.IsFalse bset2.Get(12), "IsFalse bset2.Get(12)"
+		  Assert.IsFalse bset2.Get(13), "IsFalse bset2.Get(13)"
+		  
+		  
+		  bset2.Clear 2
+		  bset2.Set 12
+		  bset2.Set 13
+		  bset2.Or_(bset1)
+		  Assert.IsTrue bset2(2), "IsTrue bset2(2)"
+		  Assert.IsTrue bset2.Get(12), "IsTrue bset2.Get(12)"
+		  Assert.IsTrue bset2.Get(13), "IsTrue bset2.Get(13)"
+		  Assert.AreEqual 3, bset2.Cardinality, "AreEqual 3, bset2.Cardinality"
+		  
+		  
+		  Dim bset3 As New ANTLR4Runtime.Misc.BitSet
+		  bset3.Set 2
+		  bset3.Set 12
+		  bset3.Set 13
+		  Assert.IsTrue bset3.Equals(bset2), "IsTrue bset3.Equals(bset2)"
+		  Assert.IsTrue (bset2= bset3), "IsTrue (bset2= bset3)"
+		  Assert.IsFalse (bset1= bset2), "IsFalse (bset1= bset2)"
+		  
+		  
+		  For i As Integer= 1 To 15
+		    bset1.Set i
+		  Next
+		  
+		  For i As Integer= 1 To 15
+		    Assert.IsTrue bset1(i), "IsTrue bset1("+ Str(i)+ ")"
+		  Next
+		  
+		  
+		  'Dim str1 As String= bset2.ToString
 		  'Break
 		End Sub
 	#tag EndMethod

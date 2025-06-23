@@ -40,6 +40,16 @@ Protected Module ANTLR4Runtime
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Function GetException(msg As String, Optional errorNumber As Integer) As RuntimeException
+		  Dim ret As New RuntimeException
+		  ret.Message= msg
+		  ret.ErrorNumber= errorNumber
+		  
+		  Return ret
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function LastIndexAntlr(Extends o() As Object) As Integer
 		  #if RBVersion< 2019.2
