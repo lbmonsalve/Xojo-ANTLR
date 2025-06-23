@@ -97,7 +97,7 @@ Protected Module ANTLR4Runtime
 	#tag Method, Flags = &h0
 		Sub ResizeToAntlr(Extends o() As Object, newSize As Integer)
 		  #if RBVersion< 2024
-		    ReDim o(newSize)
+		    ReDim o(newSize- 1)
 		  #else
 		    o.ResizeTo newSize
 		  #endif
@@ -107,7 +107,17 @@ Protected Module ANTLR4Runtime
 	#tag Method, Flags = &h0
 		Sub ResizeToAntlr(Extends o() As UInt16, newSize As Integer)
 		  #if RBVersion< 2024
-		    ReDim o(newSize)
+		    ReDim o(newSize- 1)
+		  #else
+		    o.ResizeTo newSize
+		  #endif
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub ResizeToAntlr(Extends o() As UInt64, newSize As Integer)
+		  #if RBVersion< 2024
+		    ReDim o(newSize- 1)
 		  #else
 		    o.ResizeTo newSize
 		  #endif

@@ -2,6 +2,37 @@
 Protected Class MiscTests
 Inherits TestGroup
 	#tag Method, Flags = &h0
+		Sub BitSetTest()
+		  Dim bset1 As New ANTLR4Runtime.Misc.BitSet(12)
+		  Assert.IsTrue bset1.IsEmpty, "IsTrue bset1.IsEmpty"
+		  
+		  bset1.Set 12
+		  Assert.IsTrue bset1.Get(12), "IsTrue bset1.Get(12)"
+		  Assert.IsFalse bset1.Get(11), "IsFalse bset1.Get(11)"
+		  
+		  bset1.Set 13 // resize
+		  Assert.IsTrue bset1.Get(13), "IsTrue bset1.Get(13)"
+		  Assert.IsTrue bset1(13), "IsTrue bset1(13)"
+		  Assert.IsFalse bset1(23), "IsFalse bset1(23)"
+		  
+		  bset1.Set 8
+		  Assert.IsTrue bset1(8), "IsTrue bset1(8)"
+		  bset1.Clear 8
+		  Assert.IsFalse bset1(8), "IsFalse bset1(8)"
+		  
+		  
+		  Dim bset2 As ANTLR4Runtime.Misc.BitSet= bset1.Clone
+		  Assert.IsTrue bset2(13), "IsTrue bset2(13)"
+		  
+		  
+		  bset1= New ANTLR4Runtime.Misc.BitSet(2)
+		  bset1.Set 2
+		  Assert.AreSame "{false, true}", bset1.ToString, "AreSame ""{false, true}"", bset1.ToString"
+		  'Break
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub IntervalSetTest()
 		  Dim iset1 As New ANTLR4Runtime.Misc.IntervalSet(1)
 		  Assert.AreEqual 1, iset1.Count, "AreEqual 1, iset1.Count"

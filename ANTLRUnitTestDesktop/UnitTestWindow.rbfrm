@@ -150,14 +150,93 @@ End
 #tag Events PushButton1
 	#tag Event
 		Sub Action()
-		  Dim trsn As New ANTLR4Runtime.Atn.Transition(New ANTLR4Runtime.Atn.ATNState)
-		  Dim names() As String= ANTLR4Runtime.Atn.Transition.SerializationNames
-		  Dim lbl As ANTLR4Runtime.Misc.IntervalSet= trsn.Label
+		  Dim nbits As Integer= 30
+		  Dim BitsPerElement As Integer= 8
+		  
+		  Dim length As Integer= (nbits+ BitsPerElement- 1)/ BitsPerElement
+		  Dim data As New MemoryBlock(length)
+		  data.LittleEndian= True
+		  
+		  Dim index As Integer= 11
+		  
+		  // set:
+		  Dim element As Integer= index/ BitsPerElement
+		  data.Byte(element)= data.Byte(element) Or Bitwise.ShiftLeft(1, index Mod BitsPerElement)
+		  
+		  // get:
+		  Dim isset As Boolean= (data.Byte(element) And Bitwise.ShiftLeft(1, index Mod BitsPerElement))<> 0
+		  
+		  // set:
+		  index= 12
+		  element= index/ BitsPerElement
+		  data.Byte(element)= data.Byte(element) Or Bitwise.ShiftLeft(1, index Mod BitsPerElement)
+		  
+		  // resize:
+		  Dim bs As New BinaryStream(data)
+		  bs.LittleEndian= True
+		  
+		  nbits= 40
+		  length= (nbits+ BitsPerElement- 1)/ BitsPerElement
+		  bs.Length= length
+		  
+		  // set:
+		  index= 40
+		  element= index/ BitsPerElement
+		  If (index Mod BitsPerElement)= 0 Then element= element- 1
+		  data.Byte(element)= data.Byte(element) Or Bitwise.ShiftLeft(1, index Mod BitsPerElement)
+		  
+		  
+		  For i As Integer= 1 To nBits
+		    element= i/ BitsPerElement
+		    If (i Mod BitsPerElement)= 0 Then element= element- 1
+		    isset= (data.Byte(element) And Bitwise.ShiftLeft(1, i Mod BitsPerElement))<> 0
+		    System.DebugLog "i= "+ Str(i)+ " isset= "+ Str(isset)
+		  Next
+		  
+		  Break
+		  
+		  
+		  'Dim nbits As Integer= 30
+		  'Dim BitsPerElement As Integer= 8* 8
+		  '
+		  'Dim length As Integer= (nbits+ BitsPerElement- 1)/ BitsPerElement
+		  'Dim data() As UInt64
+		  'data.ResizeToAntlr(length)
+		  '
+		  'Dim index As Integer= 11
+		  '
+		  '// set:
+		  'Dim element As Integer= index/ BitsPerElement
+		  'data(element)= data(element) Or Bitwise.ShiftLeft(1, index Mod BitsPerElement)
+		  '
+		  '// get:
+		  'Dim isset As Boolean= (data(element) And Bitwise.ShiftLeft(1, index Mod BitsPerElement))<> 0
+		  '
+		  '// set:
+		  'index= 12
+		  'element= index/ BitsPerElement
+		  'data(element)= data(element) Or Bitwise.ShiftLeft(1, index Mod BitsPerElement)
+		  '
+		  'For i As Integer= 1 To nBits
+		  'element= i/ BitsPerElement
+		  'isset= (data(element) And Bitwise.ShiftLeft(1, i Mod BitsPerElement))<> 0
+		  'System.DebugLog "i= "+ Str(i)+ " isset= "+ Str(isset)
+		  'Next
+		  '
+		  'Break
+		  
+		  
+		  'Dim trsn As New ANTLR4Runtime.Atn.Transition(New ANTLR4Runtime.Atn.ATNState)
+		  'Dim names() As String= ANTLR4Runtime.Atn.Transition.SerializationNames
+		  'Dim lbl As ANTLR4Runtime.Misc.IntervalSet= trsn.Label
+		  '
+		  'Break
+		  
 		  
 		  'Dim state As New ANTLR4Runtime.Atn.ATNState
 		  'Dim names() As String= ANTLR4Runtime.Atn.ATNState.SerializationNames
 		  '
-		  Break
+		  'Break
 		  
 		  
 		  'Dim stream1 As ANTLR4Runtime.ICharStream

@@ -19,6 +19,7 @@ Protected Class LL1Analyzer
 		  
 		  Dim lookContext As ANTLR4Runtime.Atn.PredictionContext
 		  If Not(ctx Is Nil) Then
+		    Break // TODO:
 		    'lookContext= ANTLR4Runtime.Atn.PredictionContext.fromRuleContext(s.atn, ctx)
 		  End If
 		  
@@ -36,7 +37,7 @@ Protected Class LL1Analyzer
 
 	#tag Method, Flags = &h1
 		Protected Sub Look_(s As ATNState, stopState As ATNState, ctx As ANTLR4Runtime.Atn.PredictionContext, r As ANTLR4Runtime.Misc.IntervalSet, lookBusy As Dictionary, calledRuleStack As Dictionary, seeThruPreds As Boolean, addEOF As Boolean)
-		  
+		  Break // TODO:
 		End Sub
 	#tag EndMethod
 
@@ -56,11 +57,6 @@ Protected Class LL1Analyzer
 
 
 	#tag ViewBehavior
-		#tag ViewProperty
-			Name="HitPred"
-			Group="Behavior"
-			Type="Integer"
-		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
 			Visible=true
