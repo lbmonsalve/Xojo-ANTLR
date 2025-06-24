@@ -23,7 +23,8 @@ Protected Class LL1Analyzer
 		    'lookContext= ANTLR4Runtime.Atn.PredictionContext.fromRuleContext(s.atn, ctx)
 		  End If
 		  
-		  Look_(s, stopState, lookContext, r, New Dictionary, New Dictionary, seeThruPreds, True)
+		  Look_(s, stopState, lookContext, r, New ANTLR4Runtime.Misc.HashSet, _
+		  New ANTLR4Runtime.Misc.BitSet, seeThruPreds, True)
 		  
 		  Return r
 		End Function
@@ -36,7 +37,7 @@ Protected Class LL1Analyzer
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Sub Look_(s As ATNState, stopState As ATNState, ctx As ANTLR4Runtime.Atn.PredictionContext, r As ANTLR4Runtime.Misc.IntervalSet, lookBusy As Dictionary, calledRuleStack As Dictionary, seeThruPreds As Boolean, addEOF As Boolean)
+		Protected Sub Look_(s As ATNState, stopState As ATNState, ctx As ANTLR4Runtime.Atn.PredictionContext, r As ANTLR4Runtime.Misc.IntervalSet, lookBusy As ANTLR4Runtime.Misc.ISet, calledRuleStack As ANTLR4Runtime.Misc.BitSet, seeThruPreds As Boolean, addEOF As Boolean)
 		  Break // TODO:
 		End Sub
 	#tag EndMethod

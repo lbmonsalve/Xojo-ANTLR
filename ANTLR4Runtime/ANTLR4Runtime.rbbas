@@ -22,7 +22,7 @@ Protected Module ANTLR4Runtime
 
 	#tag Method, Flags = &h0
 		Function CountAntlr(Extends o() As Integer) As Integer
-		  #if RBVersion< 2019.2
+		  #if RBVersion< 2019.02
 		    Return o.Ubound+ 1
 		  #else
 		    Return o.Count
@@ -32,7 +32,7 @@ Protected Module ANTLR4Runtime
 
 	#tag Method, Flags = &h0
 		Function CountAntlr(Extends o() As Object) As Integer
-		  #if RBVersion< 2019.2
+		  #if RBVersion< 2019.02
 		    Return o.Ubound+ 1
 		  #else
 		    Return o.Count
@@ -52,7 +52,7 @@ Protected Module ANTLR4Runtime
 
 	#tag Method, Flags = &h0
 		Function LastIndexAntlr(Extends o() As Object) As Integer
-		  #if RBVersion< 2019.2
+		  #if RBVersion< 2019.02
 		    Return o.Ubound
 		  #else
 		    Return o.LastIndex
@@ -62,7 +62,7 @@ Protected Module ANTLR4Runtime
 
 	#tag Method, Flags = &h0
 		Function LastIndexAntlr(Extends o() As String) As Integer
-		  #if RBVersion< 2019.2
+		  #if RBVersion< 2019.02
 		    Return o.Ubound
 		  #else
 		    Return o.LastIndex
@@ -72,7 +72,7 @@ Protected Module ANTLR4Runtime
 
 	#tag Method, Flags = &h0
 		Function LastIndexAntlr(Extends o() As UInt16) As Integer
-		  #if RBVersion< 2019.2
+		  #if RBVersion< 2019.02
 		    Return o.Ubound
 		  #else
 		    Return o.LastIndex
@@ -106,8 +106,8 @@ Protected Module ANTLR4Runtime
 
 	#tag Method, Flags = &h0
 		Sub ResizeToAntlr(Extends o() As Object, newSize As Integer)
-		  #if RBVersion< 2024
-		    ReDim o(newSize- 1)
+		  #if RBVersion< 2019.02
+		    ReDim o(newSize)
 		  #else
 		    o.ResizeTo newSize
 		  #endif
@@ -116,8 +116,8 @@ Protected Module ANTLR4Runtime
 
 	#tag Method, Flags = &h0
 		Sub ResizeToAntlr(Extends o() As UInt16, newSize As Integer)
-		  #if RBVersion< 2024
-		    ReDim o(newSize- 1)
+		  #if RBVersion< 2019.02
+		    ReDim o(newSize)
 		  #else
 		    o.ResizeTo newSize
 		  #endif
@@ -126,8 +126,8 @@ Protected Module ANTLR4Runtime
 
 	#tag Method, Flags = &h0
 		Sub ResizeToAntlr(Extends o() As UInt64, newSize As Integer)
-		  #if RBVersion< 2024
-		    ReDim o(newSize- 1)
+		  #if RBVersion< 2019.02
+		    ReDim o(newSize)
 		  #else
 		    o.ResizeTo newSize
 		  #endif

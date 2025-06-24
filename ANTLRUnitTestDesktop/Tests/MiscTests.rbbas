@@ -72,6 +72,41 @@ Inherits TestGroup
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub HashSetTest()
+		  Dim hset1 As ANTLR4Runtime.Misc.ISet= New ANTLR4Runtime.Misc.HashSet
+		  
+		  If hset1.Add(1) Then
+		    Assert.IsTrue hset1.Contains(1), "IsTrue hset1.Contains(1)"
+		  End If
+		  
+		  If Not hset1.Add(1) Then
+		    Assert.Message "Not hset1.Add(1)"
+		  End If
+		  
+		  If hset1.Add(2) Then
+		    Assert.IsTrue hset1.Contains(2), "IsTrue hset1.Contains(2)"
+		  End If
+		  
+		  
+		  Assert.AreSame "1,2", hset1.ToString, "AreSame ""1,2"", hset1.ToString"
+		  
+		  Dim hset2 As ANTLR4Runtime.Misc.ISet= New ANTLR4Runtime.Misc.HashSet
+		  Call hset2.Add(1)
+		  Call hset2.Add(2)
+		  Assert.IsTrue hset2.Equals(hset1), "IsTrue hset2.Equals(hset1)"
+		  Assert.IsTrue _
+		  (ANTLR4Runtime.Misc.HashSet(hset2)= ANTLR4Runtime.Misc.HashSet(hset1)), _
+		  "IsTrue (ANTLR4Runtime.Misc.HashSet(hset2)= ANTLR4Runtime.Misc.HashSet(hset1))"
+		  
+		  
+		  hset1.Clear
+		  Assert.AreEqual 0, hset1.Size, "AreEqual 0, hset1.Size"
+		  Assert.IsTrue hset1.IsEmpty, "IsTrue hset1.IsEmpty"
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub IntervalSetTest()
 		  Dim iset1 As New ANTLR4Runtime.Misc.IntervalSet(1)
 		  Assert.AreEqual 1, iset1.Count, "AreEqual 1, iset1.Count"
@@ -163,7 +198,7 @@ Inherits TestGroup
 
 	#tag Method, Flags = &h0
 		Sub IntervalTest()
-		  Dim inte1 As New ANTLR4Runtime.Misc.interval(1, 2)
+		  Dim inte1 As New ANTLR4Runtime.Misc.Interval(1, 2)
 		  Assert.AreEqual 1, inte1.A, "AreEqual 1, inte1.A"
 		  Assert.AreEqual 2, inte1.B, "AreEqual 2, inte1.B"
 		  Assert.AreEqual 2, inte1.Length, "AreEqual 2, inte1.Length"

@@ -176,7 +176,7 @@ Implements IIntSet
 		Sub Clear()
 		  If Readonly Then Raise GetException("InvalidOperationException: can't alter readonly IntervalSet")
 		  
-		  Intervals.ResizeToAntlr 0
+		  Intervals.ResizeToAntlr -1
 		End Sub
 	#tag EndMethod
 

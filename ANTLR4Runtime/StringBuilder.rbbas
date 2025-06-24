@@ -1356,6 +1356,20 @@ Protected Class StringBuilder
 		        Introspection.GetType(err).FullName+ "("+ err.Message+ ")"
 		      End Try
 		      Return
+		    ElseIf method.Name.InStr(MethodName+ ".Get")> 0 Then // ini ToString.Get
+		      Dim params() As Variant
+		      params.Append 0
+		      
+		      Try
+		        #pragma BreakOnExceptions Off
+		        Dim s1 As String= method.Invoke(value, params)
+		        #pragma BreakOnExceptions Default
+		        mBuffer.Write s1
+		      Catch err As RuntimeException
+		        System.DebugLog CurrentMethodName+ " 's1= method.Invoke(value)' err:"+_
+		        Introspection.GetType(err).FullName+ "("+ err.Message+ ")"
+		      End Try
+		      Return // end ToString.Get
 		    End If
 		  Next
 		  
@@ -2072,6 +2086,10 @@ Protected Class StringBuilder
 
 	#tag Note, Name = Release
 		
+		0.0.250623
+		
+		* add ToString.Get
+		
 		0.0.200731
 		
 		* add 2019r2 dateTime support
@@ -2305,7 +2323,7 @@ Protected Class StringBuilder
 	#tag Constant, Name = kTypeVariant, Type = String, Dynamic = False, Default = \"variant", Scope = Private
 	#tag EndConstant
 
-	#tag Constant, Name = kVersion, Type = String, Dynamic = False, Default = \"0.0.200731", Scope = Private
+	#tag Constant, Name = kVersion, Type = String, Dynamic = False, Default = \"0.0.250623", Scope = Private
 	#tag EndConstant
 
 

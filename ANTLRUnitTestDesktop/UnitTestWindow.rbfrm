@@ -150,50 +150,101 @@ End
 #tag Events PushButton1
 	#tag Event
 		Sub Action()
-		  Dim nbits As Integer= 30
-		  Dim BitsPerElement As Integer= 8
+		  'Dim value As New ANTLR4Runtime.Misc.interval(1, 2)
+		  'Dim MethodName As String= "ToString"
+		  'Const kTypeString= "string"
+		  '
+		  'Dim ti As Introspection.TypeInfo= Introspection.GetType(value)
+		  '
+		  '// 1: look for ToString As String method
+		  'Dim methods() As Introspection.MethodInfo= ti.GetMethods
+		  'For Each method As Introspection.MethodInfo In methods
+		  'If method.IsPublic And method.GetParameters.Ubound= -1 And _
+		  'method.Name.Lowercase= MethodName.Lowercase And _
+		  'method.ReturnType.Name.Lowercase= kTypeString Then
+		  'Try
+		  '#pragma BreakOnExceptions Off
+		  'Dim s1 As String= method.Invoke(value)
+		  '#pragma BreakOnExceptions Default
+		  ''mBuffer.Write s1
+		  'Catch err As RuntimeException
+		  'System.DebugLog CurrentMethodName+ " 's1= method.Invoke(value)' err:"+_
+		  'Introspection.GetType(err).FullName+ "("+ err.Message+ ")"
+		  'End Try
+		  'Return
+		  'ElseIf method.Name.InStr(MethodName+ ".Get")> 0 Then
+		  'Dim params() As Variant
+		  'params.Append 0
+		  '
+		  'Try
+		  '#pragma BreakOnExceptions Off
+		  'Dim s1 As String= method.Invoke(value, params)
+		  '#pragma BreakOnExceptions Default
+		  ''mBuffer.Write s1
+		  'Catch err As RuntimeException
+		  'System.DebugLog CurrentMethodName+ " 's1= method.Invoke(value)' err:"+_
+		  'Introspection.GetType(err).FullName+ "("+ err.Message+ ")"
+		  'End Try
+		  'Return
+		  'End If
+		  'Next
+		  '
+		  'Break
 		  
-		  Dim length As Integer= (nbits+ BitsPerElement- 1)/ BitsPerElement
-		  Dim data As New MemoryBlock(length)
-		  data.LittleEndian= True
 		  
-		  Dim index As Integer= 11
-		  
-		  // set:
-		  Dim element As Integer= index/ BitsPerElement
-		  data.Byte(element)= data.Byte(element) Or Bitwise.ShiftLeft(1, index Mod BitsPerElement)
-		  
-		  // get:
-		  Dim isset As Boolean= (data.Byte(element) And Bitwise.ShiftLeft(1, index Mod BitsPerElement))<> 0
-		  
-		  // set:
-		  index= 12
-		  element= index/ BitsPerElement
-		  data.Byte(element)= data.Byte(element) Or Bitwise.ShiftLeft(1, index Mod BitsPerElement)
-		  
-		  // resize:
-		  Dim bs As New BinaryStream(data)
-		  bs.LittleEndian= True
-		  
-		  nbits= 40
-		  length= (nbits+ BitsPerElement- 1)/ BitsPerElement
-		  bs.Length= length
-		  
-		  // set:
-		  index= 40
-		  element= index/ BitsPerElement
-		  If (index Mod BitsPerElement)= 0 Then element= element- 1
-		  data.Byte(element)= data.Byte(element) Or Bitwise.ShiftLeft(1, index Mod BitsPerElement)
+		  Dim hset As ANTLR4Runtime.Misc.ISet= New ANTLR4Runtime.Misc.HashSet
+		  If hset.Add(New ANTLR4Runtime.Misc.interval(1, 2)) Then
+		    If hset.Add(ANTLR4Runtime.Misc.Interval.Of_(0, 10)) Then
+		      Dim str1 As String= hset.ToString
+		      Break
+		    End If
+		  End If
 		  
 		  
-		  For i As Integer= 1 To nBits
-		    element= i/ BitsPerElement
-		    If (i Mod BitsPerElement)= 0 Then element= element- 1
-		    isset= (data.Byte(element) And Bitwise.ShiftLeft(1, i Mod BitsPerElement))<> 0
-		    System.DebugLog "i= "+ Str(i)+ " isset= "+ Str(isset)
-		  Next
-		  
-		  Break
+		  'Dim nbits As Integer= 30
+		  'Dim BitsPerElement As Integer= 8
+		  '
+		  'Dim length As Integer= (nbits+ BitsPerElement- 1)/ BitsPerElement
+		  'Dim data As New MemoryBlock(length)
+		  'data.LittleEndian= True
+		  '
+		  'Dim index As Integer= 11
+		  '
+		  '// set:
+		  'Dim element As Integer= index/ BitsPerElement
+		  'data.Byte(element)= data.Byte(element) Or Bitwise.ShiftLeft(1, index Mod BitsPerElement)
+		  '
+		  '// get:
+		  'Dim isset As Boolean= (data.Byte(element) And Bitwise.ShiftLeft(1, index Mod BitsPerElement))<> 0
+		  '
+		  '// set:
+		  'index= 12
+		  'element= index/ BitsPerElement
+		  'data.Byte(element)= data.Byte(element) Or Bitwise.ShiftLeft(1, index Mod BitsPerElement)
+		  '
+		  '// resize:
+		  'Dim bs As New BinaryStream(data)
+		  'bs.LittleEndian= True
+		  '
+		  'nbits= 40
+		  'length= (nbits+ BitsPerElement- 1)/ BitsPerElement
+		  'bs.Length= length
+		  '
+		  '// set:
+		  'index= 40
+		  'element= index/ BitsPerElement
+		  'If (index Mod BitsPerElement)= 0 Then element= element- 1
+		  'data.Byte(element)= data.Byte(element) Or Bitwise.ShiftLeft(1, index Mod BitsPerElement)
+		  '
+		  '
+		  'For i As Integer= 1 To nBits
+		  'element= i/ BitsPerElement
+		  'If (i Mod BitsPerElement)= 0 Then element= element- 1
+		  'isset= (data.Byte(element) And Bitwise.ShiftLeft(1, i Mod BitsPerElement))<> 0
+		  'System.DebugLog "i= "+ Str(i)+ " isset= "+ Str(isset)
+		  'Next
+		  '
+		  'Break
 		  
 		  
 		  'Dim nbits As Integer= 30

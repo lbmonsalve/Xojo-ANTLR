@@ -4,13 +4,13 @@ Protected Class BitSet
 		Sub And_(set As BitSet)
 		  If set Is Nil Then Raise GetException("ArgumentNullException: set")
 		  
-		  Dim length As Integer= Min(data.Size, set.data.Size)
+		  Dim length As Integer= Min(mData.Size, set.mData.Size)
 		  For i As Integer= 0 To length- 1
-		    data.Byte(i)= data.Byte(i) And set.data.Byte(i)
+		    mData.Byte(i)= mData.Byte(i) And set.mData.Byte(i)
 		  Next
 		  
-		  For i As Integer= length To data.Size- 1
-		    data.Byte(i)= 0
+		  For i As Integer= length To mData.Size- 1
+		    mData.Byte(i)= 0
 		  Next
 		End Sub
 	#tag EndMethod
@@ -32,10 +32,10 @@ Protected Class BitSet
 		  If index<= 0 Then Raise GetException("ArgumentOutOfRangeException: index")
 		  
 		  Dim element As Integer= index/ BitsPerElement
-		  If element> data.Size Then Return // chk
+		  If element> mData.Size Then Return // chk
 		  If (index Mod BitsPerElement)= 0 Then element= element- 1
 		  
-		  data.Byte(element)= data.Byte(element) And Not(Bitwise.ShiftLeft(1, index Mod BitsPerElement))
+		  mData.Byte(element)= mData.Byte(element) And Not(Bitwise.ShiftLeft(1, index Mod BitsPerElement))
 		End Sub
 	#tag EndMethod
 
@@ -43,7 +43,7 @@ Protected Class BitSet
 		Function Clone() As BitSet
 		  Dim ret As New BitSet
 		  
-		  ret.dataBS.Write dataBS.Read(dataBS.Length)
+		  ret.mDataBS.Write mDataBS.Read(mDataBS.Length)
 		  ret.maxBits= maxBits
 		  
 		  Return ret
@@ -52,11 +52,11 @@ Protected Class BitSet
 
 	#tag Method, Flags = &h0
 		Sub Constructor()
-		  data= New MemoryBlock(1)
-		  data.LittleEndian= True
+		  mData= New MemoryBlock(1)
+		  mData.LittleEndian= True
 		  
-		  dataBS= New BinaryStream(data)
-		  dataBS.LittleEndian= True
+		  mDataBS= New BinaryStream(mData)
+		  mDataBS.LittleEndian= True
 		  
 		End Sub
 	#tag EndMethod
@@ -67,11 +67,11 @@ Protected Class BitSet
 		  
 		  Dim length As Integer= (nbits+ BitsPerElement- 1)/ BitsPerElement
 		  
-		  data= New MemoryBlock(length)
-		  data.LittleEndian= True
+		  mData= New MemoryBlock(length)
+		  mData.LittleEndian= True
 		  
-		  dataBS= New BinaryStream(data)
-		  dataBS.LittleEndian= True
+		  mDataBS= New BinaryStream(mData)
+		  mDataBS.LittleEndian= True
 		  
 		  maxBits= nbits
 		End Sub
@@ -79,9 +79,25 @@ Protected Class BitSet
 
 	#tag Method, Flags = &h0
 		Function Equals(other As BitSet) As Boolean
-		  If Operator_Compare(other)= 0 Then Return True
+		  If other Is Nil Then Return False
+		  If IsEmpty Then
+		    If other.IsEmpty Then Return True
+		  End If
 		  
-		  Return False
+		  Dim minLength As Integer= Min(mDataBS.Length, other.mDataBS.Length)
+		  For i As Integer= 0 To minLength- 1
+		    If mData.Byte(i)<> other.mData.Byte(i) Then Return False
+		  Next
+		  
+		  For i As Integer= minLength To mDataBS.Length- 1
+		    If mData.Byte(i)<> 0 Then Return False
+		  Next
+		  
+		  For i As Integer= minLength To other.mDataBS.Length- 1
+		    If other.mData.Byte(i)<> 0 Then Return False
+		  Next
+		  
+		  Return True
 		End Function
 	#tag EndMethod
 
@@ -91,10 +107,10 @@ Protected Class BitSet
 		  If index> maxBits Then Return False
 		  
 		  Dim element As Integer= index/ BitsPerElement
-		  If element> data.Size Then Return False // chk
+		  If element> mData.Size Then Return False // chk
 		  If (index Mod BitsPerElement)= 0 Then element= element- 1
 		  
-		  Return (data.Byte(element) And Bitwise.ShiftLeft(1, index Mod BitsPerElement))<> 0
+		  Return (mData.Byte(element) And Bitwise.ShiftLeft(1, index Mod BitsPerElement))<> 0
 		End Function
 	#tag EndMethod
 
@@ -110,8 +126,8 @@ Protected Class BitSet
 
 	#tag Method, Flags = &h0
 		Function IsEmpty() As Boolean
-		  For i As Integer= 0 To data.Size- 1
-		    If data.Byte(i)<> 0 Then Return False
+		  For i As Integer= 0 To mData.Size- 1
+		    If mData.Byte(i)<> 0 Then Return False
 		  Next
 		  
 		  Return True
@@ -120,25 +136,9 @@ Protected Class BitSet
 
 	#tag Method, Flags = &h0
 		Function Operator_Compare(rhs As BitSet) As Integer
-		  If rhs Is Nil Then Return -1
-		  If IsEmpty Then
-		    If rhs.IsEmpty Then Return 0
-		  End If
+		  If Equals(rhs) Then Return 0
 		  
-		  Dim minLength As Integer= Min(dataBS.Length, rhs.dataBS.Length)
-		  For i As Integer= 0 To minLength- 1
-		    If data.Byte(i)<> rhs.data.Byte(i) Then Return -1
-		  Next
-		  
-		  For i As Integer= minLength To dataBS.Length- 1
-		    If data.Byte(i)<> 0 Then Return -1
-		  Next
-		  
-		  For i As Integer= minLength To rhs.dataBS.Length- 1
-		    If rhs.data.Byte(i)<> 0 Then Return -1
-		  Next
-		  
-		  Return 0
+		  Return -1
 		End Function
 	#tag EndMethod
 
@@ -152,11 +152,11 @@ Protected Class BitSet
 		Sub Or_(set As BitSet)
 		  If set Is Nil Then Raise GetException("ArgumentNullException: set")
 		  
-		  If set.data.Size> data.Size Then dataBS.Length= set.data.Size
+		  If set.mData.Size> mData.Size Then mDataBS.Length= set.mData.Size
 		  
-		  Dim length As Integer= set.data.Size- 1
+		  Dim length As Integer= set.mData.Size- 1
 		  For i As Integer= 0 To length
-		    data.Byte(i)= data.Byte(i) Or set.data.Byte(i)
+		    mData.Byte(i)= mData.Byte(i) Or set.mData.Byte(i)
 		  Next
 		End Sub
 	#tag EndMethod
@@ -166,10 +166,10 @@ Protected Class BitSet
 		  If index<= 0 Then Raise GetException("ArgumentOutOfRangeException: index")
 		  
 		  Dim element As Integer= index/ BitsPerElement
-		  If element>= data.Size Then dataBS.Length= element+ 1 // resize
+		  If element>= mData.Size Then mDataBS.Length= element+ 1 // resize
 		  If (index Mod BitsPerElement)= 0 Then element= element- 1
 		  
-		  data.Byte(element)= data.Byte(element) Or Bitwise.ShiftLeft(1, index Mod BitsPerElement)
+		  mData.Byte(element)= mData.Byte(element) Or Bitwise.ShiftLeft(1, index Mod BitsPerElement)
 		  
 		  If index> maxBits Then maxBits= index
 		End Sub
@@ -194,15 +194,15 @@ Protected Class BitSet
 
 
 	#tag Property, Flags = &h21
-		Private data As MemoryBlock
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private dataBS As BinaryStream
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
 		Private maxBits As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mData As MemoryBlock
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mDataBS As BinaryStream
 	#tag EndProperty
 
 
